@@ -1,7 +1,5 @@
 //#!/usr/bin/env node
 
-const Fs = require("fs");
-
 const Args      = require('command-line-args');
 const Config    = require('../config');
 const Crib      = require('../lib/crib');
@@ -15,15 +13,16 @@ const Source    = require('../lib/source');
 const Stats     = require('../lib/stats');
 const Util      = require('../lib/util');
 
-(() =>
+
+const idkfa = (()=>
+{
+const process = (Arguments) =>
 {
     try
     {
-        // Parse input fom CLI.
-        const CLA = Args(Config.cla, { partial: true });
 
         // Validate input
-        const Options = Input.getOptions(CLA);
+        const Options = Input.getOptions(Arguments);
 
         // Set options
         const arrKeys           = Options.key;
@@ -103,5 +102,19 @@ const Util      = require('../lib/util');
     }
 
     catch (e) { Log.writeError(`${e}`); }
-
+};
+	return {process};
 })();
+
+/*
+(() =>
+{
+
+        // Parse input fom CLI.
+        const CLA = Args(Config.cla, { partial: true });
+	process(CLA);
+})();
+*/
+
+module.exports = idkfa;
+global.idkfa=idkfa;
