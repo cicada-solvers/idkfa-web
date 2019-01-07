@@ -1,17 +1,19 @@
-#!/usr/bin/env node
+//#!/usr/bin/env node
+
+const Fs = require("fs");
 
 const Args      = require('command-line-args');
-const Config    = require('./config');
-const Crib      = require('./lib/crib');
-const Dict      = require('./lib/dict');
-const Gematria  = require('./lib/gematria');
-const Input     = require('./lib/input');
-const Key       = require('./lib/key');
-const Log       = require('./lib/log');
-const Shift     = require('./lib/shift');
-const Source    = require('./lib/source');
-const Stats     = require('./lib/stats');
-const Util      = require('./lib/util');
+const Config    = require('../config');
+const Crib      = require('../lib/crib');
+const Dict      = require('../lib/dict');
+const Gematria  = require('../lib/gematria');
+const Input     = require('../lib/input');
+const Key       = require('../lib/key');
+const Log       = require('../lib/log');
+const Shift     = require('../lib/shift');
+const Source    = require('../lib/source');
+const Stats     = require('../lib/stats');
+const Util      = require('../lib/util');
 
 (() =>
 {

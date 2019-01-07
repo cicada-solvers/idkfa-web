@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started</title>
+  </head>
+  <body>
+    <script src="browserfs.js"></script>
+    <script src="jquery.min.js"></script>
+    <script>
+	// Installs globals onto window:
+	// * Buffer
+	// * require (monkey-patches if already defined)
+	// * process
+	// You can pass in an arbitrary object if you do not wish to pollute
+	// the global namespace.
+	BrowserFS.install(window);
+	// Configures BrowserFS to use the LocalStorage file system.
+
+	window.bfsready=false;
+
+	BrowserFS.configure(
+		{
+			fs: "XmlHttpRequest",
+			options:{
+				baseUrl:"./",
+				preferXHR: true
+			}
+		},
+		function(e) {
+			window.bfsready=true;
+			//idkfa.process({charAt:[],find:[],invert:[],key:['0'],patch:[],source:[],source:[],to:[],verbose:[],wordAt:[]});
+			console.log("BrowserFS returned: ");
+			console.log(e)
+			if (e) {
+			  // An error happened!
+			  throw e;
+			}else{
+				dostuff();
+			}
+			// Otherwise, BrowserFS is ready-to-use!
+		}
+	);
+
+	function dostuff(){
+		var fs  = require("fs");
+		window.fs=fs;
+		  fs.readFile('/data/liber', function(err, contents) {
+		console.log("test error "+err)
+		console.log(contents.toString());
+	  });
+  }
+  window.global=window;
+    </script>
+
+    <script src="main.js"></script>
+  </body>
+</html>
+
