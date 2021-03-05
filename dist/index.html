@@ -17,9 +17,9 @@
   // * process
   // You can pass in an arbitrary object if you do not wish to pollute
   // the global namespace.
-  idkfa.source.fs.install(window);
+  idkfa.source.bfs.install(window);
   // Configures BrowserFS to use the LocalStorage file system.
-  idkfa.source.fs.configure({
+  idkfa.source.bfs.configure({
     fs: "XmlHttpRequest",
     options: { index: "./index.json"}
   }, function(e) {
