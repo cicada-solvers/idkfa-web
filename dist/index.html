@@ -3,9 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <title>Getting Started</title>
-    <script src="https://unpkg.com/lodash@4.17.20"></script>
-<script type="text/javascript" src="browserfs.min.js"></script>
-<script type="text/javascript">
+   <!-- <script src="https://unpkg.com/lodash@4.17.20"></script>-->
+   <!--
+<script type="text/javascript" src="browserfs.js"></script>-->
+
+  </head>
+  <body>
+    <script src="./main.js"></script>
+    <!--<script type="text/javascript">
   // Installs globals onto window:
   // * Buffer
   // * require (monkey-patches if already defined)
@@ -15,7 +20,8 @@
   BrowserFS.install(window);
   // Configures BrowserFS to use the LocalStorage file system.
   BrowserFS.configure({
-    fs: "XmlHttpRequest"
+    fs: "XmlHttpRequest",
+    options: { index: "./index.json"}
   }, function(e) {
     if (e) {
       // An error happened!
@@ -23,9 +29,6 @@
     }
     // Otherwise, BrowserFS is ready-to-use!
   });
-</script>
-  </head>
-  <body>
-    <script src="./main.js"></script>
+</script>-->
   </body>
 </html>
