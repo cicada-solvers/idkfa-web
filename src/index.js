@@ -105,7 +105,7 @@ const process = (Arguments) =>
 
     }
 
-    catch (e) { Log.writeError(`${e}`); }
+    catch (e) { Log.writeError(`${e}`); Log.writeLine(e.stack) }
 };
 	return {process};
 })();
