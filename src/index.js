@@ -21,6 +21,7 @@ const process = (Arguments) =>
     try
     {
 
+	Log.writeData(Arguments);
         // Validate input
         const Options = Input.getOptions(Arguments);
 
