@@ -1,2 +1,4 @@
 npm install
-npx webpack
+#npx webpack
+npm rum build
+
