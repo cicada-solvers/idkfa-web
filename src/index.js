@@ -20,11 +20,15 @@ const process = (Arguments) =>
 {
     try
     {
+                // Parse input fom CLI.
+        const CLA = Args(Config.cla, { partial: true });
 
         Log.writeLine("Arguments");
 	Log.writeLine(Arguments);
+        Log.writeLine("CLA");
+	Log.writeLine(CLA);
         // Validate input
-        const Options = Input.getOptions(Arguments);
+        const Options = Input.getOptions(CLA);
         Log.writeLine("Options");
 	Log.writeLine(Options);
 
