@@ -17,7 +17,7 @@ const Util      = require('../lib/util');
 const idkfa = (()=>
 {
 const internal = {
-    args: Args,
+    cla: Args,
     source: Source,
     input: Input,
     config: Config
