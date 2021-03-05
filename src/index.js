@@ -16,6 +16,7 @@ const Util      = require('../lib/util');
 
 const idkfa = (()=>
 {
+const source = Source;
 const process = (Arguments) =>
 {
     try
@@ -111,7 +112,7 @@ const process = (Arguments) =>
 
     catch (e) { Log.writeError(`${e}`); Log.writeLine(e.stack) }
 };
-	return {process};
+	return {source,process};
 })();
 
 /*
