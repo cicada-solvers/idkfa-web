@@ -105,7 +105,7 @@ Config.input =
  */
 Config.irc =
 {
-    'isEnabled'     : true,
+    'isEnabled'     : false,
 
     'owner'         : {},
 
