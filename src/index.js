@@ -21,9 +21,12 @@ const process = (Arguments) =>
     try
     {
 
-	Log.writeData(Arguments);
+        Log.writeLine("Arguments");
+	Log.writeLine(Arguments);
         // Validate input
         const Options = Input.getOptions(Arguments);
+        Log.writeLine("Options");
+	Log.writeLine(Options);
 
         // Set options
         const arrKeys           = Options.key;
