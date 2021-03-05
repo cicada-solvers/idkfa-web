@@ -48,7 +48,7 @@
                       li.appendChild(output_remapper_bytype(value[1]));
                       ul.appendChild(li);
                   }
-                  console.log(value);
+                  //console.log(value);
                   return ul;
               }
               function output_remapper_array(values) {
@@ -65,7 +65,7 @@
                       li.appendChild(output_remapper_bytype(value));
                       ul.appendChild(li);
                   }
-                  console.log(value);
+                  //console.log(value);
                   return ul;
               }
               function output_remapper_bytype(value) {
@@ -127,8 +127,9 @@
               }
               function run_idkfa_cmd() {
                   removeAllChildNodes(document.getElementById('output'));
-                  var command = document.getElementById('command').value;
-                  var output = idkfa.process(command)
+                  let command = document.getElementById('command').value;
+                  console.log("idkfa cmd", command)
+                  let output = idkfa.process(command)
                   console.log("idkfa out", output)
                   //document.getElementById('output').innerText = JSON.stringify(output,json_replacer);
                   output_remapper(output);

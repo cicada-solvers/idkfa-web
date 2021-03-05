@@ -26,6 +26,7 @@ const process = (Arguments) =>
 {
     try
     {
+        Log.reset()
         if(typeof Arguments==="undefined") Arguments=process.argv;
         if(typeof Arguments==="string") Arguments=Arguments.split(" ");
         
