@@ -4,7 +4,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
-  target: 'node',
+  target: 'web',
 
   resolve: {
     // Use our versions of Node modules.
