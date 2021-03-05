@@ -26,12 +26,16 @@ const process = (Arguments) =>
 {
     try
     {
+        if(typeof Arguments==="undefined") Arguments=process.argv;
+        if(typeof Arguments==="string") Arguments=Arguments.split(" ");
+        
+        
                 // Parse input fom CLI.
 
         Log.writeLine("Arguments");
 	Log.writeLine(Arguments);
         Log.writeLine("CLA");
-        const CLA = Args(Config.cla, { partial: true });
+        const CLA = Args(Config.cla, {argv:Arguments,partial:true});
 	Log.writeLine(CLA);
         // Validate input
         Log.writeLine("Options");
