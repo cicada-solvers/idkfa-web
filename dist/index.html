@@ -1,34 +1,191 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Getting Started</title>
-   <!-- <script src="https://unpkg.com/lodash@4.17.20"></script>-->
-   <!--
-<script type="text/javascript" src="browserfs.js"></script>-->
+    <head>
+        <meta charset="utf-8" />
+        <title>Getting Started</title>
+        <!-- <script src="https://unpkg.com/lodash@4.17.20"></script>-->
+        <!--
+     <script type="text/javascript" src="browserfs.js"></script>-->
 
-  </head>
-  <body>
-    <script src="./main.js"></script>
-    <script type="text/javascript">
-  // Installs globals onto window:
-  // * Buffer
-  // * require (monkey-patches if already defined)
-  // * process
-  // You can pass in an arbitrary object if you do not wish to pollute
-  // the global namespace.
-  idkfa.internal.source.bfs.install(window);
-  // Configures BrowserFS to use the LocalStorage file system.
-  idkfa.internal.source.bfs.configure({
-    fs: "XmlHttpRequest",
-    options: { index: "./index.json"}
-  }, function(e) {
-    if (e) {
-      // An error happened!
-      throw e;
-    }
-    // Otherwise, BrowserFS is ready-to-use!
-  });
-</script>
-  </body>
+        <style>
+            div.list-item,div.lone-value{
+                display: inline-block;
+                background-color: rgba(255,0,0,0.25);
+                margin-left: 3px;
+                margin-right: 3px;
+            }
+            div.list-container{
+                display: block;
+                background-color: rgba(255,255,255,0.25);
+            }
+        </style>
+    </head>
+    <body>
+        <h2>idkfa - Liber Primus Translator Tool</h2>
+        <h3>Options (<a href="https://github.com/rtkd/idkfa">documentation</a>)</h3>
+        <form id="options">
+        </form>
+        <h3>Command Line</h3>
+        <label for="command">command: idkfa</label><input id="command" value="-s 0.5 -v l -p s -k firfumferenfe" style="width:80%">
+        <button onclick="run_idkfa_cmd()">Run IDKFA</button>      
+        <h3>Output</h3>
+        <div id="output" style="background-color:lightgray">.</div>
+
+        <script src="./main.js"></script>
+        <script>
+              'use strict';
+              function output_remapper_object(values) {
+                  var ul = document.createElement('ul');
+                  ul.classList.add('list-part');
+                  ul.classList.add('list-container');
+                  for (var value of Object.entries(values)) {
+                      var li = document.createElement('li');
+                      li.classList.add('list-part');
+                      li.classList.add('list-item');
+                      var span = document.createElement('span');
+                      span.innerText = value[0] + " : ";
+                      li.appendChild(span);
+                      li.appendChild(output_remapper_bytype(value[1]));
+                      ul.appendChild(li);
+                  }
+                  console.log(value);
+                  return ul;
+              }
+              function output_remapper_array(values) {
+                  if (values.length == 1) {
+                      return output_remapper_bytype(values[0]);
+                  }
+                  var ul = document.createElement('div');
+                  ul.classList.add('list-part');
+                  ul.classList.add('list-container');
+                  for (var value of values) {
+                      var li = document.createElement('div');
+                      li.classList.add('list-part');
+                      li.classList.add('list-item');
+                      li.appendChild(output_remapper_bytype(value));
+                      ul.appendChild(li);
+                  }
+                  console.log(value);
+                  return ul;
+              }
+              function output_remapper_bytype(value) {
+                  if (value instanceof Array)
+                      return output_remapper_array(value);
+                  if (typeof value === "object")
+                      return output_remapper_object(value);
+                  if ((typeof value !== "string") && (typeof value !== "number"))
+                      value = JSON.stringify(value);
+                  var div = document.createElement('div');
+                  div.classList.add('lone-value');
+                  div.innerText = value;
+                  return div;
+              }
+              function output_remapper_section(name, value) {
+                  var div = document.createElement('div');
+                  div.appendChild(output_remapper_bytype(value));
+                  return div;
+              }
+              function output_remapper(outputMap) {
+                  var mapIter = outputMap.entries();
+                  var entry = "";
+                  var outElem = document.getElementById('output');
+                  while ((entry = mapIter.next()) && !entry.done) {
+                      let name = entry.value[0];
+                      let value = entry.value[1];
+
+                      var h4 = document.createElement('h4');
+                      h4.innerText = name;
+
+                      value = output_remapper_section(name, value);
+
+                      outElem.appendChild(h4);
+                      outElem.appendChild(value);
+                  }
+              }
+              function json_replacer(key, value) {
+                  if (value instanceof Map) {
+                      return {
+                          dataType: 'Map',
+                          value: Array.from(value.entries()), // or with spread: value: [...value]
+                      };
+                  } else {
+                      return value;
+                  }
+              }
+              function run_idkfa_args() {
+                  var command = "";
+                  Array.from(document.getElementsByClassName('option-input')).forEach(input => {
+                      if (input.value.length > 0) {
+                          if (command.length > 0)
+                              command += " ";
+                          command += "--" + input.name + " " + input.value;
+                      }
+                  })
+                  document.getElementById('command').value = command;
+                  run_idkfa_cmd();
+                  return false;
+              }
+              function run_idkfa_cmd() {
+                  removeAllChildNodes(document.getElementById('output'));
+                  var command = document.getElementById('command').value;
+                  var output = idkfa.process(command)
+                  console.log("idkfa out", output)
+                  //document.getElementById('output').innerText = JSON.stringify(output,json_replacer);
+                  output_remapper(output);
+                  return false;
+              }
+              function removeAllChildNodes(parent) {
+                  while (parent.firstChild) {
+                      parent.removeChild(parent.firstChild);
+                  }
+              }
+
+              idkfa.internal.config.cla.forEach(option => {
+                  let optionId = "option-" + option.name;
+                  let div = document.createElement("div");
+                  div.classList.add('option');
+                  let label = document.createElement('label');
+                  label.setAttribute('for', optionId);
+                  label.innerText = option.name;
+                  let input = document.createElement('input');
+                  input.classList.add('option-input');
+                  input.setAttribute('id', optionId);
+                  input.setAttribute('name', option.name);
+                  input.value = option.defaultValue || "";
+
+                  if (option.name == "source")
+                      input.value = "0.0";
+                  if (option.name == "verbose")
+                      input.value = "f";
+
+                  div.appendChild(input);
+                  div.appendChild(label);
+                  document.getElementById('options').appendChild(div);
+              });
+              let submit = document.createElement('button');
+              submit.innerText = "Run IDKFA";
+              submit.onclick = run_idkfa_args;
+              document.getElementById('options').appendChild(submit);
+        </script>
+        <script type="text/javascript">
+            // Installs globals onto window:
+            // * Buffer
+            // * require (monkey-patches if already defined)
+            // * process
+            // You can pass in an arbitrary object if you do not wish to pollute
+            // the global namespace.
+            idkfa.internal.source.bfs.install(window);
+            // Configures BrowserFS to use the LocalStorage file system.
+            idkfa.internal.source.bfs.configure({
+                fs: "XmlHttpRequest",
+                options: {index: "./index.json"}
+            }, function (e) {
+                if (e) {
+                    // An error happened!
+                    throw e;
+                }
+                // Otherwise, BrowserFS is ready-to-use!
+            });
+        </script>
+    </body>
 </html>
