@@ -17,6 +17,7 @@ const Util      = require('../lib/util');
 const idkfa = (()=>
 {
 const internal = {
+    args: Args,
     source: Source,
     input: Input,
     config: Config
@@ -26,16 +27,17 @@ const process = (Arguments) =>
     try
     {
                 // Parse input fom CLI.
-        const CLA = Args(Config.cla, { partial: true });
 
         Log.writeLine("Arguments");
 	Log.writeLine(Arguments);
         Log.writeLine("CLA");
+        const CLA = Args(Config.cla, { partial: true });
 	Log.writeLine(CLA);
         // Validate input
-        const Options = Input.getOptions(CLA);
         Log.writeLine("Options");
+        const Options = Input.getOptions(CLA);
 	Log.writeLine(Options);
+        Log.writeLine("----");
 
         // Set options
         const arrKeys           = Options.key;
